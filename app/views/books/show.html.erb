@@ -1,40 +1,58 @@
 <body>
-  <main>
-    <table>
-      <thead>
+  <div class ="container">
+    <div class="row">
+      <div class="col-md-3">
+      <table class="table">
         <h3>User info</h3>
-        <tr>
-          <td><h4>name</h4></td>
-          <td><%=@user.name %></td>
+        <%= attachment_image_tag @user,:profile_image, :fill, 60 , 60, format: 'jpeg', fallback: "no_image.jpg" %>
+        <thead>
+          <tr>
+            <th scope="col">name</th>
+            <th scope="col"><%=@user.name %></th>
+          </tr>
+          <tr>
+            <th scope="col">introdcution</th>
+            <th scope="col"><%=@user.introduction %></th>
+          </tr>
+        </thead>
+        <tr scope="col">
+          <% if current_user.id ==  @user.id %>
+         <td><%= link_to "edit", edit_user_path(@user.id) %></td>
+         <% else %>
+         <td><%= link_to "edit", user_path(current_user) %></td>
+         <% end %>
         </tr>
-        <tr>
-          <td><h4>introdcution</h4></td>
-          <td><%=@user.introduction %></td>
-        </tr>
-      </thead>
-      <tr>
-        <td><%=link_to "edit", "" %></td>
-      </tr>
-    </table>
+      </table>
 
-    <div class = "book_form">
-      <h3>New book</h3>
-      <%= form_with model: @book, local: true do |f| %>
-      <h4>Title</h4>
-      <%= f.text_field :title %>
-      <h4>Opinion</h4>
-      <%=f.text_area :body %>
-      <%=f.submit 'Create Book' %>
-      <% end %>
+      <div class = "book_form">
+        <h3>New book</h3>
+        <%= form_with model: @book, local: true do |f| %>
+          <h4>Title</h4>
+          <%= f.text_field :title %>
+          <h4>Opinion</h4>
+          <%=f.text_area :body %>
+          <%=f.submit 'Create Book', class: "brn btn-success" %>
+        <% end %>
+      </div>
+     </div>
+
+    <div class="col-md-8">
+    <table class="table">
+    <h3>Book detail</h3>
+      <tbody>
+        <tr>
+          <td><%= attachment_image_tag @book_show.user,:profile_image, size: "50x50", format: 'jpeg', fallback: "no_image.jpg" %></td>
+          <td><%= @book_show.title %></td>
+          <td><%= @book_show.body %></td>
+          <% if @user.id == current_user.id %>
+          <td><%= link_to "Edit", edit_book_path(@book_show.id), class: "btn btn-success" %></td>
+          <td><%= link_to "Delete",book_path(@book_show.id), method: :delete,
+            data: {confirm: "Are you Sure?"}, class: "btn btn-danger"%></td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
     </div>
-  <h3>Book detail</h3>
-  <table>
-    <tbody>
-      <tr>
-        <td></td>
-        <td><%= @book_show.title %></td>
-        <td><%= @book_show.body %></td>
-      </tr>
-    </tbody>
-  </table>
+  </div>
+  </div>
 </body>
