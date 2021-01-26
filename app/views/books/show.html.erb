@@ -53,6 +53,29 @@
       </tbody>
     </table>
     </div>
+    
+    <div class="new-coment">
+      <%= form_with(model:[@book_show, @book_comment], local: true) do |f| %>
+      <div class= "form-group">
+        <label for= "inputcomment">New comment</label>
+        <%= f.text_area :text ,id:"inputcomment", class: "form-control" %>
+      </div>
+        <%= f.submit 'Create Comment', class: "btn btn-success" %>
+       <% end %> 
+    </div>
+    <div class ="comments">
+      <p>コメント件数<%=@book_show.book_comments.count %></p>
+      <% @book_show.book_comments.each do |book_comment| %>
+      <%= attachment_image_tag book_comment.user,:profile_image, size: "50x50", format: 'jpeg', fallback: "no_image.jpg" %>
+      <%= book_comment.user %>
+      <%= book_comment.comment %>
+      <% book_comment.created_at.strftime('%Y/%m/%/d') %>
+      <% end %>
+    </div>
+    
+    
+    
+    
   </div>
   </div>
 </body>
