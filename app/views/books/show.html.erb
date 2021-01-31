@@ -1,5 +1,12 @@
-<body>
-  <div class ="container">
+<main>
+   <% if @book.errors.any? %>
+   <%= @book.errors.count %> error
+   <% @book.errors.full_messages.each do |message| %>
+   <%= message %>
+   <% end %>
+  <% end %>
+  
+  <div class ="container mt-5">
     <div class="row">
       <div class="col-md-3">
       <table class="table">
@@ -45,7 +52,7 @@
           <%= @book_show.user.name %></td>
           <td><%= @book_show.title %></td>
           <td><%= @book_show.body %></td>
-          
+
           <% if @book_show.favorite_by?(current_user) %>
           <td><%=link_to book_favorites_path(@book_show), method: :delete do  %>
           <i class="fas fa-heart"></br><%=@book_show.favorites.count %></td>
@@ -55,7 +62,7 @@
           <i class="far fa-heart"></i></br><%=@book_show.favorites.count%></td>
           <% end %>
           <% end %>
-          
+
           <% if @user.id == current_user.id %>
           <td><%= link_to "Edit", edit_book_path(@book_show.id), class: "btn btn-success" %></td>
           <td><%= link_to "Delete",book_path(@book_show.id), method: :delete,
@@ -94,4 +101,4 @@
 
   </div>
   </div>
-</body>
+</main>
