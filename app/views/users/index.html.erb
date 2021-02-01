@@ -2,35 +2,11 @@
   <div class ="container mt-5">
     <div class="row">
       <div class="col-md-3">
-      <table class="table">
-        <h3>User info</h3>
-        <%= attachment_image_tag @user,:profile_image, :fill, 60 , 60, format: 'jpeg', fallback: "no_image.jpg" %>
-        <thead>
-          <tr>
-            <th scope="col">name</th>
-            <th scope="col"><%=@user.name %></th>
-          </tr>
-          <tr>
-            <th scope="col">introdcution</th>
-            <th scope="col"><%=@user.introduction %></th>
-          </tr>
-        </thead>
-        <tr scope="col">
-         <td><%=link_to "edit", edit_user_path(@user.id) %></td>
-        </tr>
-      </table>
+       <%= render 'userinfo', user: @user %>
 
-      <div class = "book_form">
-        <h3>New book</h3>
-        <%= form_with model: @book, local: true do |f| %>
-          <h4>Title</h4>
-          <%= f.text_field :title %>
-          <h4>Opinion</h4>
-          <%=f.text_area :body %>
-          <%=f.submit 'Create Book', class: "brn btn-success" %>
-        <% end %>
-      </div>
+       <%= render 'book/form', book: @book %>
      </div>
+
      <div class="col-md-8">
      <table class="table">
      <h3>Users</h3>
