@@ -4,7 +4,7 @@
       <div class="col-md-3">
        <%= render 'users/userinfo', user: @user %>
 
-       <%= render 'form', book: @book %>
+       <%= render 'form', book: @book_new %>
      </div>
 
     <div class="col-md-8">
@@ -12,56 +12,35 @@
     <h3>Book detail</h3>
       <tbody>
         <tr>
-          <td><%= attachment_image_tag @book_show.user,:profile_image, size: "50x50", format: 'jpeg', fallback: "no_image.jpg" %></br>
-          <%= @book_show.user.name %></td>
-          <td><%= @book_show.title %></td>
-          <td><%= @book_show.body %></td>
+          <td><%= attachment_image_tag @book.user,:profile_image, size: "50x50", format: 'jpeg', fallback: "no_image.jpg" %></br>
+          <%= @book.user.name %></td>
+          <td><%= @book.title %></td>
+          <td><%= @book.body %></td>
 
-          <% if @book_show.favorite_by?(current_user) %>
-          <td><%=link_to book_favorites_path(@book_show), method: :delete do  %>
-          <i class="fas fa-heart"></br><%=@book_show.favorites.count %></td>
-          <% end %>
-          <% else %>
-          <td><%=link_to book_favorites_path(@book_show), method: :post do  %>
-          <i class="far fa-heart"></i></br><%=@book_show.favorites.count%></td>
-          <% end %>
-          <% end %>
+          <td id= "favorite-btn-<%= @book.id %>">
+         <%= render 'favorites/favorite-btn', book: @book %>
+         </td>
 
           <% if @user.id == current_user.id %>
-          <td><%= link_to "Edit", edit_book_path(@book_show.id), class: "btn btn-success" %></td>
-          <td><%= link_to "Delete",book_path(@book_show.id), method: :delete,
+          <td><%= link_to "Edit", edit_book_path(@book.id), class: "btn btn-success" %></td>
+          <td><%= link_to "Delete",book_path(@book.id), method: :delete,
             data: {confirm: "Are you Sure?"}, class: "btn btn-danger"%></td>
           <% end %>
         </tr>
       </tbody>
      </table>
      <table class="table">
-      <h4>Comment  <%= @book_show.book_comments.count %></h4>
-      <tbody>
-        <tr>
-           <% @book_show.book_comments.each do |book_comment| %>
-          <th> <%= attachment_image_tag book_comment.user,:profile_image, size: "50x50", format: 'jpeg', fallback: "no_image.jpg" %></br>
-               <%= book_comment.user.name %></th>
-          <td><%= book_comment.comment %></td>
-          <td> <%= book_comment.created_at.strftime('%Y/%m/%d') %></td>
-          <% if book_comment.user === current_user %>
-          <td><%=link_to "Delete", book_book_comment_path(book_comment.book, book_comment), method: :delete,
-               class: "btn btn-danger"%></td>
-          <% end %>
-        </tr>
-         <% end %>
+      <h4>Comment  <%= @book.book_comments.count %></h4>
+      <tbody id="comment-area">
+
+          <%= render 'book_comments/index', book: @book  %>
+
       </tbody>
      </table>
-      <div class="new-coment">
-      <%= form_with(model:[@book_show, @book_comment], local: true) do |f| %>
-      <div class= "form-group">
-        <label for= "inputcomment"><h4>New comment</h4></label>
-        <%= f.text_area :comment ,id:"inputcomment", class: "form-control" %>
-      </div>
-        <%= f.submit 'Create Comment', class: "btn btn-success" %>
-       <% end %>
-     </div>
-  </div>
+
+      <div id="new-coment">
+     <%= render 'book_comments/form', book: @book, book_comment: @book_comment %>
+    </div>
 
   </div>
   </div>

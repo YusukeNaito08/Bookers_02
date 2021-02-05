@@ -1,0 +1,15 @@
+<% if user_signed_in? %>
+    <% if current_user.favorited?(book) %>
+        <%=link_to book_favorites_path(book), class: "like-link", method: :delete, remote: true do  %>
+            <i class="fa fa-heart unlike-btn" style="color: #e54747;">
+            <%=book.favorites.count %>
+            </i>
+    <% end %>
+    <% else %>
+        <%=link_to book_favorites_path(book), class: "like-link", method: :post, remote: true do  %>
+            <i class="fa fa-heart like-btn" style="color: #808080;">
+            <%=book.favorites.count%>
+            </i>
+    <% end %>
+    <% end %>
+<% end %>
